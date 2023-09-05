@@ -1,20 +1,24 @@
-import {useCallback, useState} from 'react'
+import Box from "./components/Box";
 import Checkbox from "./components/Checkbox";
+import useHover from "./hooks/useHover";
+import useKeyPress from "./hooks/useKeyPress";
+import useToggle from "./hooks/useToggle";
 
 function App() {
-	const [foodOn, setFoodOn] = useState(false)
-	const [clothesOn, setClothesOn] = useState(false)
-	const [shelterOn, setShelterOn] = useState(false)
+	const [on, toggle] = useToggle();
+	const [ref, isHover] = useHover();
+	const keyPressed = useKeyPress("a");
 
-	const foodChange = useCallback((e) => setFoodOn(e.target.checked), [])
-	const clothesChange = useCallback((e) => setClothesOn(e.target.checked), [])
-	const shelterChange = useCallback((e) => setShelterOn(e.target.checked), [])
+	console.log(on);
 
 	return (
 		<div>
-			<Checkbox label="Food" on={foodOn} onChange={foodChange} />
-			<Checkbox label="Clothes" on={clothesOn} onChange={clothesChange} />
-			<Checkbox label="Shelter" on={shelterOn} onChange={shelterChange} />
+			<Checkbox checked={on} onChange={toggle} />
+			
+			{isHover ? 'hover' : 'mouseout'}
+			<Box ref={ref} />
+			
+			{keyPressed && "Pressed"}
 		</div>
 	);
 }
